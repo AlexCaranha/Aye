@@ -1,0 +1,43 @@
+<AyeOneLineIconListItem>:
+
+    IconLeftWidget:
+        icon: root.icon
+
+
+<AyeOneLineLeftIconItem>
+
+    IconLeftWidget:
+        icon: root.icon
+
+
+<AyeTwoLineLeftIconItem>
+
+    IconLeftWidget:
+        icon: root.icon
+
+
+<AyeTwoLineLeftAvatarItem>
+    secondary_theme_text_color: "Custom"
+    secondary_text_color: app.theme_cls.primary_color
+
+    ImageLeftWidget:
+        source: root.icon
+
+
+<AyeOneLineLeftAvatarItem>
+
+    ImageLeftWidget:
+        source: root.source
+
+
+<AyeOneLineLeftWidgetItem>
+    on_release: app.theme_cls.primary_palette = root.text
+
+    LeftWidget:
+        canvas.before:
+            Color:
+                rgba: root.color
+            Ellipse:
+                pos: self.pos
+                size: self.size
+
