@@ -11,3 +11,6 @@ class MyApp(App):
 
 if __name__ == ' main ':
     MyApp().run()
+
+# Para executar, digite:
+# python HelloWorld.py
