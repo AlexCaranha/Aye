@@ -23,7 +23,7 @@ def get_plugin_by_name(plugin_name, category_name, plugin_manager):
 
 def get_plugin_info(plugin):
     categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
-    output = f"plugin: {plugin.name}\n" + \''
+    output = f"plugin: {plugin.name}\n" + \
             f"categorias: {categories}\n" + \
             f"autor: {plugin.author}\n" + \
             f"descrição: {plugin.description}."
