@@ -1,3 +1,0 @@
-
-
-get_center_of_current_monitor

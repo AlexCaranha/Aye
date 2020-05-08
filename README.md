@@ -19,3 +19,11 @@ pip install --force-reinstall git+https://github.com/HeaTTheatR/KivyMD.git
 
 Para gravar em um arquivo texto todos os pacotes instalados do seu ambiente python, utilizar o comando:
 pip freeze > requirements.txt
+
+
+
+
+
+manager.getPluginByName(name, category='Default')
+Get the plugin correspoding to a given category and name
+

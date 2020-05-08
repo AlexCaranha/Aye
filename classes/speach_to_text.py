@@ -14,9 +14,11 @@ try:
         
         util.text_to_speach("O que você deseja?")
 
-        while True:
-            
+        while True:            
             audio = r.listen(source)
+
+            with open('input.wav', 'wb') as f:
+                f.write(audio.get_wav_data())
             
             try:
                 # recognize speech using Google Speech Recognition
