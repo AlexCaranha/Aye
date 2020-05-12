@@ -7,6 +7,11 @@ def setup_plugin_manager():
     manager.setCategoriesFilter(get_classes_categories())
     manager.setPluginPlaces(["plugins"])
     manager.collectPlugins()
+
+    plugins = manager.getAllPlugins()
+    for plugin in enumerate(plugins, 0):
+        setup_plugin(plugin)
+
     return manager
 
 def get_categories(plugin_manager):
@@ -24,17 +29,33 @@ def get_plugin_by_name(plugin_name, category_name, plugin_manager):
 def get_plugin_info(plugin):
     categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
     output = f"plugin: {plugin.name}\n" + \
-            f"categorias: {categories}\n" + \
-            f"autor: {plugin.author}\n" + \
-            f"descrição: {plugin.description}."
+            f"categories: {categories}\n" + \
+            f"author: {plugin.author}\n" + \
+            f"description: {plugin.description}."
 
     return output
 
+def setup_plugin(plugin):
+    plugin.plugin_object.setup(parent=plugin)
+
+def run_plugin(plugin, sentence):
+    plugin.plugin_object.run(sentence)
+
 plugin_manager = setup_plugin_manager()
-print("Plugin: wikipedia\n")
 
-category = "Knowledge"
-plugin = get_plugin_by_name("Wikipedia", category, plugin_manager)
-info = get_plugin_info(plugin)
-print(info)
+# Translate
+# plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)
+# run_plugin(plugin, "translate to portuguese the sentence what is your name")
+# run_plugin(plugin, "traduzir para o inglês a frase qual é seu nome")
 
+# Wikipedia
+# plugin = get_plugin_by_name("Wikipedia", "Knowledge", plugin_manager)
+# run_plugin(plugin, "procurar na enciclopedia sobre Vinicius de")
+# run_plugin(plugin, "procurar na enciclopedia resumo sobre Vinicius de Moraes")
+
+# Pendrive
+plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
+run_plugin(plugin, "localizar pendrive")
+
+# Explorer
+# parei aqui.

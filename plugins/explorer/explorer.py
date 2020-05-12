@@ -2,8 +2,9 @@ from yapsy.IPlugin import IPlugin
 from plugins.categories import HandleFile, Knowledge
 
 class Explorer(HandleFile, Knowledge):
-    def setup(self):
-        print("setup done.")
+    def setup(self, parent):
+        self.parent = parent
+        print(f"{parent.name} loaded: ok.")
 
     def run(self, input):
         return "done"

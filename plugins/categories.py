@@ -1,28 +1,15 @@
 import sys
-from abc import ABC, abstractmethod
+from plugins.plugin_base import PluginBase
 
-class Plugin(ABC):
-    @abstractmethod
-    def get_category_description(self):
-        return
-
-    @abstractmethod
-    def setup(self):
-        return
-
-    @abstractmethod
-    def run(self, input):
-        return
-
-class HandleFile(Plugin):
+class HandleFile(PluginBase):
     def get_category_description(self):
         return "Gerenciar arquivos e pastas."
 
-class Knowledge(Plugin):
+class Knowledge(PluginBase):
     def get_category_description(self):
         return "Pesquisar em fontes como enciclopédias e dicionários."
 
-class Entertainment(Plugin):
+class Entertainment(PluginBase):
     def get_category_description(self):
         return "Pesquisar músicas, filmes, etc.."
 
@@ -30,7 +17,7 @@ def get_classes_categories():
     output = dict()
     current_module = sys.modules[__name__]
     for key in dir(current_module):
-        if isinstance( getattr(current_module, key), type ) and key != 'Plugin':            
+        if isinstance( getattr(current_module, key), type) and key != "PluginBase":
             output[key] = eval(key)
 
     return output
