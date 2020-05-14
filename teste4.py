@@ -10,6 +10,7 @@ def get_usb_volume_name():  # pragma: no cover
 
         # 1. Win32_DiskDrive
         col_items = obj_swbem_services.ExecQuery("SELECT * FROM Win32_DiskDrive WHERE InterfaceType = \"USB\"")
+        disk_drive_device_ids = None
         for item in col_items:
             disk_drive_device_ids = item.DeviceID.replace('\\', '').replace('.', '')
 
@@ -17,10 +18,11 @@ def get_usb_volume_name():  # pragma: no cover
         col_items = obj_swbem_services.ExecQuery("SELECT * from Win32_DiskDriveToDiskPartition")
         disk_partition_device_ids = []
         for obj_item in col_items:
-            for disk_drive_device_id in disk_drive_device_ids:
-                if disk_drive_device_id in str(obj_item.Antecedent):
-                    disk_partition_device_ids.append(obj_item.Dependent.split('=')[1].replace('"', ''))
-                    break
+            if disk_drive_device_ids is not None:
+                for disk_drive_device_id in disk_drive_device_ids:
+                    if disk_drive_device_id in str(obj_item.Antecedent):
+                        disk_partition_device_ids.append(obj_item.Dependent.split('=')[1].replace('"', ''))
+                        break
 
         # 3. Win32_LogicalDiskToPartition
         col_items = obj_swbem_services.ExecQuery("SELECT * from Win32_LogicalDiskToPartition")

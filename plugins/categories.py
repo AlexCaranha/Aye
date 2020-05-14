@@ -5,6 +5,10 @@ class HandleFile(PluginBase):
     def get_category_description(self):
         return "Gerenciar arquivos e pastas."
 
+class HandleEmail(PluginBase):
+    def get_category_description(self):
+        return "Gerenciar emails."
+
 class Knowledge(PluginBase):
     def get_category_description(self):
         return "Pesquisar em fontes como enciclopédias e dicionários."

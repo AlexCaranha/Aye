@@ -1,5 +1,5 @@
 
-from plugins.categories import HandleFile, Knowledge, get_classes_categories
+from plugins.categories import get_classes_categories
 from yapsy.PluginManager import PluginManager
 
 def setup_plugin_manager():    
@@ -9,7 +9,7 @@ def setup_plugin_manager():
     manager.collectPlugins()
 
     plugins = manager.getAllPlugins()
-    for plugin in enumerate(plugins, 0):
+    for plugin in plugins:
         setup_plugin(plugin)
 
     return manager
@@ -54,8 +54,12 @@ plugin_manager = setup_plugin_manager()
 # run_plugin(plugin, "procurar na enciclopedia resumo sobre Vinicius de Moraes")
 
 # Pendrive
-plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
-run_plugin(plugin, "localizar pendrive")
+# plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
+# run_plugin(plugin, "localizar pendrive")
+
+# Gmail
+plugin = get_plugin_by_name("Gmail", "HandleEmail", plugin_manager)
+run_plugin(plugin, "enviar email com título Olá e mensagem Oi Mundo")
 
 # Explorer
 # parei aqui.
