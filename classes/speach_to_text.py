@@ -6,7 +6,7 @@ r = sr.Recognizer()
 m = sr.Microphone()
 
 try:
-    util.text_to_speach("Um momento de silêncio, por favor ...")
+    util.text_to_speach("Silêncio, por favor ...")
 
     with m as source:
         r.adjust_for_ambient_noise(source)

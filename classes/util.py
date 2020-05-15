@@ -9,9 +9,12 @@ from playsound import playsound
 from gtts import gTTS
 import os
 
-__author__ = 'lual'
+__author__ = 'Alex Libório Caranha'
 
-def text_to_speach(text, language="pt"):
+def text_to_speach(text, language="pt", to_print=True):
+    if to_print:
+        print(text)
+
     speech = gTTS(text = text, lang = language, slow = False)
     speech.save("output.mp3")
     play_output()

@@ -19,10 +19,10 @@ def current_time():
 # print(current_time())
 
 def identify_request(request):
-    if request == "comando que dia é hoje":
+    if request == "Que dia é hoje":
         return current_day()
 
-    if request == "comando horário atual":
+    if request == "Que horas são":
         return current_time()
 
     return None
