@@ -44,9 +44,9 @@ def run_plugin(plugin, sentence):
 plugin_manager = setup_plugin_manager()
 
 # Translate
-# plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)
-# run_plugin(plugin, "translate to portuguese the sentence what is your name")
-# run_plugin(plugin, "traduzir para o inglês a frase qual é seu nome")
+plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)
+run_plugin(plugin, "translate to portuguese the sentence what is your name")
+run_plugin(plugin, "traduzir para o inglês a frase qual é seu nome")
 
 # Wikipedia
 # plugin = get_plugin_by_name("Wikipedia", "Knowledge", plugin_manager)
@@ -54,8 +54,8 @@ plugin_manager = setup_plugin_manager()
 # run_plugin(plugin, "procurar na enciclopedia resumo sobre Vinicius de Moraes")
 
 # Pendrive
-plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
-run_plugin(plugin, "localizar pendrive")
+# plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
+# run_plugin(plugin, "localizar pendrive")
 
 # Gmail
 # plugin = get_plugin_by_name("Gmail", "HandleEmail", plugin_manager)

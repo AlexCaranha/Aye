@@ -14,7 +14,7 @@ python -m virtualenv aye_venv
 aye_venv\Scripts\activate
 
 4) Para instalar todos os pacotes da aplicação, para ter o ambiente em python configurado corretamente, utilizar o comando:
-pip install -r requirements.txt 
+pip install -r requirements.txt
 pip install --force-reinstall git+https://github.com/HeaTTheatR/KivyMD.git
 
 5) Para executar a ferramenta, utilizar o comando:
