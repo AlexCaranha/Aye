@@ -1,65 +1,41 @@
 
-from plugins.categories import get_classes_categories
-from yapsy.PluginManager import PluginManager
+import speech_recognition as sr
+import classes.util as util
+# import comandos
+import plugin_manager as manager
 
-def setup_plugin_manager():    
-    manager = PluginManager()
-    manager.setCategoriesFilter(get_classes_categories())
-    manager.setPluginPlaces(["plugins"])
-    manager.collectPlugins()
+r = sr.Recognizer()
+m = sr.Microphone()
 
-    plugins = manager.getAllPlugins()
-    for plugin in plugins:
-        setup_plugin(plugin)
+try:
+    util.text_to_speach("Silêncio, por favor ...")
 
-    return manager
+    with m as source:
+        r.adjust_for_ambient_noise(source)
+        # print(f"Configurando mínimo limiar para reconhecimento de fala em {r.energy_threshold}")
+        
+        while True:
+            util.text_to_speach("O que você deseja?")
+            audio = r.listen(source)
 
-def get_categories(plugin_manager):
-    output = plugin_manager.getCategories()
-    return output
+            with open('input.wav', 'wb') as f:
+                f.write(audio.get_wav_data())
+            
+            try:
+                # recognize speech using Google Speech Recognition
+                input = r.recognize_google(audio, language="pt-BR")
 
-def get_plugins_of_category(category_name, plugin_manager):
-    output = plugin_manager.getPluginsOfCategory(category_name)    
-    return output
+                # we need some special handling here to correctly print unicode characters to standard output
+                util.text_to_speach(f"Você disse: {input}")
 
-def get_plugin_by_name(plugin_name, category_name, plugin_manager):
-    output = plugin_manager.getPluginByName(plugin_name, category_name)
-    return output
+                output = manager.run_plugins(input)
+                util.text_to_speach(output)
 
-def get_plugin_info(plugin):
-    categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
-    output = f"plugin: {plugin.name}\n" + \
-            f"categories: {categories}\n" + \
-            f"author: {plugin.author}\n" + \
-            f"description: {plugin.description}."
+            except sr.UnknownValueError:
+                util.text_to_speach("Comando não reconhecido.")
 
-    return output
+            except sr.RequestError as e:
+                print(f"Uh oh! Não foi possível realizar requisição ao serviço de reconhecimento de fala da Google: {e}")
 
-def setup_plugin(plugin):
-    plugin.plugin_object.setup(parent=plugin)
-
-def run_plugin(plugin, sentence):
-    plugin.plugin_object.run(sentence)
-
-plugin_manager = setup_plugin_manager()
-
-# Translate
-plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)
-run_plugin(plugin, "translate to portuguese the sentence what is your name")
-run_plugin(plugin, "traduzir para o inglês a frase qual é seu nome")
-
-# Wikipedia
-# plugin = get_plugin_by_name("Wikipedia", "Knowledge", plugin_manager)
-# run_plugin(plugin, "procurar na enciclopedia sobre Vinicius de")
-# run_plugin(plugin, "procurar na enciclopedia resumo sobre Vinicius de Moraes")
-
-# Pendrive
-# plugin = get_plugin_by_name("Pendrive", "HandleFile", plugin_manager)
-# run_plugin(plugin, "localizar pendrive")
-
-# Gmail
-# plugin = get_plugin_by_name("Gmail", "HandleEmail", plugin_manager)
-# run_plugin(plugin, "enviar email com título Olá e mensagem Oi Mundo")
-
-# Explorer
-# parei aqui.
+except KeyboardInterrupt:
+    pass

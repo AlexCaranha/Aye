@@ -7,4 +7,4 @@ class Explorer(HandleFile, Knowledge):
         print(f"{parent.name} loaded: ok.")
 
     def run(self, input):
-        return "done"
+        return None

@@ -15,23 +15,32 @@ class Wikipedia(Knowledge):
 
     def search_for_something(self, input: str):
         if input is not None:
-            info = wiki.search(input)
-            print(info)
+            output_list = wiki.search(input)
+
+            output = None
+            if output_list is not None:
+                output = "Resultados: "
+                lista = [f"{i}: {item}" for i, item in enumerate(output_list, start=1)]
+                output += ";".join(lista)
+
+            return output
 
     def search_summary_of(self, input: str):
         if input is not None:
             info = wiki.summary(input)
-            print(info)
+            return info
 
     def run(self, input):
         # Search for something
-        sentence = self.is_the_question(r'procurar na enciclopedia sobre (?P<sentence>.*)', input)
+        sentence = self.is_the_question(r'procurar na enciclopédia sobre (?P<sentence>.*)', input)
         if sentence is not None:
-            self.search_for_something(sentence)
-            return
+            output = self.search_for_something(sentence)
+            return output
 
         # Search summary of ...
-        sentence = self.is_the_question(r'procurar na enciclopedia resumo sobre (?P<sentence>.*)', input)
+        sentence = self.is_the_question(r'procurar na enciclopédia resumo sobre (?P<sentence>.*)', input)
         if sentence is not None:
-            self.search_summary_of(sentence)
-            return
+            output = self.search_summary_of(sentence)
+            return output
+
+        return None

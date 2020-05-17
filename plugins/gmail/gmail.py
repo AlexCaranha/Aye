@@ -22,10 +22,10 @@ class Gmail(HandleEmail):
 
     def run(self, input):
         # Send email
-        match = self.is_the_question(r'enviar email com título (?P<subject>.*) e mensagem (?P<message>.*)', input)
+        match = self.is_the_question(r'enviar e-mail com o título (?P<subject>.*) e a mensagem (?P<message>.*)', input)
         if match:
             subject = match.group('subject')
             message = match.group('message')
 
             self.send_mail(subject, message)
-            return
+            return "e-mail enviado com sucesso."

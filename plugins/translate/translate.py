@@ -28,15 +28,15 @@ class Translate(Knowledge):
 
     def run(self, input):
         # English to Portuguese
-        sentence = self.is_the_question(r'translate to portuguese the sentence (?P<sentence>.*)', input)
+        sentence = self.is_the_question(r'traduzir para o português a frase em inglês (?P<sentence>.*)', input)
         if sentence is not None:
             sentence_translated = self.translate_from_en_to_pt(sentence)
-            print(sentence_translated)
-            return
+            return sentence_translated
         
         # Portuguese to English
         sentence = self.is_the_question(r'traduzir para o inglês a frase (?P<sentence>.*)', input)
         if sentence is not None:
-            sentence_translated = self.translate_from_pt_to_en(sentence)
-            print(sentence_translated)
-            return
+            sentence_translated = self.translate_from_pt_to_en(sentence)            
+            return sentence_translated
+
+        return None

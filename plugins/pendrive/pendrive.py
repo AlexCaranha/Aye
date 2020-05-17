@@ -21,19 +21,25 @@ class Pendrive(HandleFile):
         objWMIService = win32com.client.Dispatch("WbemScripting.SWbemLocator")
         objSWbemServices = objWMIService.ConnectServer(".", "root\cimv2")
 
-        output = []
+        # output = []
         for partition in filter(lambda p: 'removable' in p.opts, psutil.disk_partitions()):        
             LogicalDisk_DeviceID = partition.mountpoint.replace("\\","")
             colItems = objSWbemServices.ExecQuery("SELECT * from Win32_LogicalDisk WHERE DeviceID=\"" + LogicalDisk_DeviceID + "\"")
             LogicalDisk_DeviceName = colItems[0].VolumeName        
-            output.append((LogicalDisk_DeviceID, LogicalDisk_DeviceName))
+            # output.append((LogicalDisk_DeviceID, LogicalDisk_DeviceName))
+            return f"unidade: {LogicalDisk_DeviceID} e nome: {LogicalDisk_DeviceName}"
 
-        print(output)
-        return output
+        return None
 
     def run(self, input):
         # Search for something
         sentence = self.is_simple_question(r'localizar pendrive', input)
         if sentence is not None:
-            self.search_devices()
-            return
+            output = self.search_devices()
+            return output
+
+        # Search for something
+        sentence = self.is_simple_question(r'localizar pen drive', input)
+        if sentence is not None:
+            output = self.search_devices()
+            return output
