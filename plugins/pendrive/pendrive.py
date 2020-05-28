@@ -31,6 +31,12 @@ class Pendrive(HandleFile):
 
         return None
 
+    def is_activated_to_answer_now(self):
+        return False
+
+    def get_message_when_plugin_activated_to_answer_now(self):
+        return None
+
     def run(self, input):
         # Search for something
         sentence = self.is_simple_question(r'localizar pendrive', input)

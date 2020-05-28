@@ -26,6 +26,12 @@ class Translate(Knowledge):
         match = re.search(pattern, input, re.IGNORECASE)
         return match.group('sentence') if match is not None else None
 
+    def is_activated_to_answer_now(self):
+        return False
+
+    def get_message_when_plugin_activated_to_answer_now(self):
+        return None
+
     def run(self, input):
         # English to Portuguese
         sentence = self.is_the_question(r'traduzir para o português a frase em inglês (?P<sentence>.*)', input)

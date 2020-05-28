@@ -20,6 +20,12 @@ class Gmail(HandleEmail):
         send_mail_from_gmail(subject, message)
         print("success!")
 
+    def is_activated_to_answer_now(self):
+        return False
+
+    def get_message_when_plugin_activated_to_answer_now(self):
+        return None
+
     def run(self, input):
         # Send email
         match = self.is_the_question(r'enviar e-mail com o título (?P<subject>.*) e a mensagem (?P<message>.*)', input)

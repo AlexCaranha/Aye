@@ -2,57 +2,78 @@
 from plugins.categories import get_classes_categories
 from yapsy.PluginManager import PluginManager
 
-def setup_plugin_manager():    
-    manager = PluginManager()
-    manager.setCategoriesFilter(get_classes_categories())
-    manager.setPluginPlaces(["plugins"])
-    manager.collectPlugins()
+class Plugin_Manager:    
+    def setup_plugin_manager(self):
+        self.initial_question = "O que você deseja?"
+        self.current_question = [self.initial_question]
 
-    plugins = manager.getAllPlugins()
-    for plugin in plugins:
-        setup_plugin(plugin)
+        self.manager = PluginManager()
+        self.manager.setCategoriesFilter(get_classes_categories())
+        self.manager.setPluginPlaces(["plugins"])
+        self.manager.collectPlugins()
 
-    return manager
+        plugins = self.manager.getAllPlugins()
+        for plugin in plugins:
+            self.setup_plugin(plugin)
 
-def get_categories(plugin_manager):
-    output = plugin_manager.getCategories()
-    return output
+    def get_categories(self):
+        output = self.manager.getCategories()
+        return output
 
-def get_plugins_of_category(category_name, plugin_manager):
-    output = plugin_manager.getPluginsOfCategory(category_name)    
-    return output
+    def get_plugins_of_category(self, category_name):
+        output = self.manager.getPluginsOfCategory(category_name)    
+        return output
 
-def get_plugin_by_name(plugin_name, category_name, plugin_manager):
-    output = plugin_manager.getPluginByName(plugin_name, category_name)
-    return output
+    def get_plugin_by_name(self, plugin_name, category_name):
+        output = self.manager.getPluginByName(plugin_name, category_name)
+        return output
 
-def get_plugin_info(plugin):
-    categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
-    output = f"plugin: {plugin.name}\n" + \
-            f"categories: {categories}\n" + \
-            f"author: {plugin.author}\n" + \
-            f"description: {plugin.description}."
+    def get_plugin_info(self, plugin):
+        categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
+        output = f"plugin: {plugin.name}\n" + \
+                f"categories: {categories}\n" + \
+                f"author: {plugin.author}\n" + \
+                f"description: {plugin.description}."
 
-    return output
+        return output
 
-def setup_plugin(plugin):
-    plugin.plugin_object.setup(parent=plugin)
+    def setup_plugin(self, plugin):
+        plugin.plugin_object.setup(parent=plugin)
 
-def run_plugin(plugin, sentence):
-    output = plugin.plugin_object.run(sentence)
-    return output
+    def run_plugin(self, plugin, sentence):
+        output = plugin.plugin_object.run(sentence)
+        return output
 
-def run_plugins(input):
-    plugins = plugin_manager.getAllPlugins()
-    for plugin in plugins:
-        output = run_plugin(plugin, sentence=input)
+    def run_plugins(self, input):
+        plugins = self.manager.getAllPlugins()
 
-        if output is not None:
-            return output
+        plugins_activated = []
+        output = []
 
-    return "comando não identificado."
+        for plugin in plugins:
+            message = self.run_plugin(plugin, sentence=input)
 
-plugin_manager = setup_plugin_manager()
+            if message is not None:
+                output.append(f"{plugin.name} retornou: {message}")
+                
+            if plugin.plugin_object.is_activated_to_answer_now():
+                plugins_activated.append(plugin)
+
+        if len(plugins_activated) > 0:
+            self.current_question = [plugin.plugin_object.get_message_when_plugin_activated_to_answer_now() for plugin in plugins_activated]
+        else:
+            self.current_question = [self.initial_question]
+
+        if len(output) == 0 and len(plugins_activated) == 0:
+            return "comando não identificado."
+
+        if len(output) > 0:
+            return ".".join(output)
+
+        return None
+
+    def get_current_question(self):
+        return ".".join(self.current_question)
 
 # Translate
 # plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)

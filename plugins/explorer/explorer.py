@@ -6,5 +6,8 @@ class Explorer(HandleFile, Knowledge):
         self.parent = parent
         print(f"{parent.name} loaded: ok.")
 
+    def is_activated_to_answer_now(self):
+        return False
+
     def run(self, input):
         return None

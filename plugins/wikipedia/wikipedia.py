@@ -2,16 +2,18 @@ from yapsy.IPlugin import IPlugin
 from plugins.categories import Knowledge
 import wikipedia as wiki
 import re
+from fuzzywuzzy import fuzz
 
 class Wikipedia(Knowledge):
     def setup(self, parent):
         self.parent = parent
+        self.__activate__(False)
+
         wiki.set_lang("pt")
         print(f"{parent.name} loaded: ok.")
 
-    def is_the_question(self, pattern, input: str):
-        match = re.search(pattern, input, re.IGNORECASE)
-        return match.group('sentence') if match is not None else None
+    def __activate__(self, value):
+        self.activated = value
 
     def search_for_something(self, input: str):
         if input is not None:
@@ -29,18 +31,28 @@ class Wikipedia(Knowledge):
         if input is not None:
             info = wiki.summary(input)
             return info
+            
+    def is_the_question(self, pattern, input: str):
+        ratio = fuzz.token_set_ratio(pattern, input)
+        return ratio > 85
+
+    def is_activated_to_answer_now(self):
+        return self.activated
+
+    def get_message_when_plugin_activated_to_answer_now(self):
+        return "O que deseja procurar na enciclopédia?"
 
     def run(self, input):
-        # Search for something
-        sentence = self.is_the_question(r'procurar na enciclopédia sobre (?P<sentence>.*)', input)
-        if sentence is not None:
-            output = self.search_for_something(sentence)
-            return output
+        if self.activated:
+            if self.is_the_question(r'sair da enciclopédia | sair', input):
+                self.__activate__(False)
+                return "Você saiu da enciclopédia."
 
-        # Search summary of ...
-        sentence = self.is_the_question(r'procurar na enciclopédia resumo sobre (?P<sentence>.*)', input)
-        if sentence is not None:
-            output = self.search_summary_of(sentence)
+            output = self.search_summary_of(input)
             return output
+        
+        if self.is_the_question(r'procurar na enciclopédia | pesquisar na enciclopédia | enciclopédia', input):
+            self.__activate__(True)
+            return None
 
         return None

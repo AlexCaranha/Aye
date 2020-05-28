@@ -2,10 +2,13 @@
 import speech_recognition as sr
 import classes.util as util
 # import comandos
-import plugin_manager as manager
+from plugin_manager import Plugin_Manager
 
 r = sr.Recognizer()
 m = sr.Microphone()
+
+plugin_manager = Plugin_Manager()
+plugin_manager.setup_plugin_manager()
 
 try:
     util.text_to_speach("Silêncio, por favor ...")
@@ -13,9 +16,9 @@ try:
     with m as source:
         r.adjust_for_ambient_noise(source)
         # print(f"Configurando mínimo limiar para reconhecimento de fala em {r.energy_threshold}")
-        
+
         while True:
-            util.text_to_speach("O que você deseja?")
+            util.text_to_speach(plugin_manager.get_current_question())
             audio = r.listen(source)
 
             with open('input.wav', 'wb') as f:
@@ -28,8 +31,9 @@ try:
                 # we need some special handling here to correctly print unicode characters to standard output
                 util.text_to_speach(f"Você disse: {input}")
 
-                output = manager.run_plugins(input)
-                util.text_to_speach(output)
+                output = plugin_manager.run_plugins(input)
+                if output is not None:
+                    util.text_to_speach(output)
 
             except sr.UnknownValueError:
                 util.text_to_speach("Comando não reconhecido.")
