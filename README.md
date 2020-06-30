@@ -1,6 +1,6 @@
 # Beth
 
-Assistente de voz criado com o intuito de ajudar as pessoas a utilizar o computador a realizar tarefas simples e complexas.
+Assistente de voz criado com o intuito de tornar tarefas simples e complexas mais acessíveis a todos por comandos de voz.
 
 Configuração Inicial:
 
