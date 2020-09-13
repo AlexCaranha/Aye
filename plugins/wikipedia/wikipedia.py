@@ -1,7 +1,6 @@
 from yapsy.IPlugin import IPlugin
 from plugins.categories import Knowledge
 import wikipedia as wiki
-import re
 from fuzzywuzzy import fuzz
 
 class Wikipedia(Knowledge):

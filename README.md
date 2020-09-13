@@ -15,7 +15,12 @@ venv\Scripts\activate
 
 4) Para instalar todos os pacotes da aplicação, para ter o ambiente em python configurado corretamente, utilizar o comando:
 pip install -r requirements.txt
-pip install whl_libs\PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
+pip install libs\PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
+copy libs\ff*.exe venv\Scripts
 
 5) Para executar a ferramenta, utilizar o comando:
 python main.py
+
+Para atualizar a lista de dependências (requirements.txt):
+
+pip freeze > requirements.txt

@@ -9,5 +9,11 @@ class Explorer(HandleFile, Knowledge):
     def is_activated_to_answer_now(self):
         return False
 
+    def is_activated_to_answer_now(self):
+        return False
+
+    def get_message_when_plugin_activated_to_answer_now(self):
+        return None
+
     def run(self, input):
         return None

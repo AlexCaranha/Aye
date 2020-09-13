@@ -6,22 +6,75 @@
 # import pymouse
 # from screeninfo import get_monitors
 from playsound import playsound
-from gtts import gTTS
-import os
+import simpleaudio as sa
 
+import os, sys
+import os.path
+
+from gtts import gTTS
+from pydub import AudioSegment as am
 __author__ = 'Alex Libório Caranha'
 
-def text_to_speach(text, language="pt", to_print=True):
-    if to_print:
-        print(text)
+def resample(filepath: str, new_frame_rate: int = 8000):
+    if not os.path.isfile(filepath):
+        return False
 
+    sound = am.from_file(filepath, format='wav')
+    sound = sound.set_frame_rate(new_frame_rate)
+    sound.export("output_8khz", format='wav')
+    
+    return True
+
+# resample(".\input.wav")
+
+def text_to_speech(text, vocoder_plugin, language="pt"):
     speech = gTTS(text = text, lang = language, slow = False)
-    speech.save("output.mp3")
+
+    if vocoder_plugin == None:
+        __gtts_to_wav__(speech, "output.wav")
+
+    else:
+        (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
+
+        if status == True and error is None:
+            vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
+            delete_file("output_temp.wav")
+
     play_output()
 
+
+def __gtts_to_wav__(speech, output_file):
+    try:
+        input_file = "output.mp3"        
+        speech.save(input_file)
+
+        convert_mp3_to_wav(input_file, output_file)
+        delete_file(input_file)
+
+    except:
+        return (False, sys.exc_info()[0])
+
+    return (True, None)
+
 def play_output():
-    playsound('output.mp3')
-    os.remove('output.mp3')
+    filename = 'output.wav'
+
+    wave_obj = sa.WaveObject.from_wave_file(filename)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()  # Wait until sound has finished playing
+
+    # playsound('output.wav')
+    os.remove('output.wav')
+
+def play(wavfile):
+    playsound(wavfile)
+
+def delete_file(file_name):
+    os.remove(file_name)
+
+def convert_mp3_to_wav(input_mp3: str, output_wav):
+    sound = am.from_mp3(input_mp3)
+    sound.export(output_wav, format="wav")
 
 # def get_center_of_current_monitor():
 #     mouse = pymouse.PyMouse()

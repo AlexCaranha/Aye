@@ -1,6 +1,7 @@
 
 from plugins.categories import get_classes_categories
 from yapsy.PluginManager import PluginManager
+import classes.util as util
 
 class Plugin_Manager:    
     def setup_plugin_manager(self):
@@ -74,6 +75,10 @@ class Plugin_Manager:
 
     def get_current_question(self):
         return ".".join(self.current_question)
+
+    def text_to_speech(self, text, language="pt"):
+        vocoder_plugin = self.get_plugin_by_name("Vocoder", "Internal")
+        util.text_to_speech(text, vocoder_plugin, language)
 
 # Translate
 # plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)

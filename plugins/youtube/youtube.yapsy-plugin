@@ -1,0 +1,9 @@
+[Core]
+Name = Youtube
+Module = youtube
+
+[Documentation]
+Author = Alex Liborio Caranha
+Version = 0.1
+Website = https://github.com/AlexCaranha/Aye
+Description = Youtube

@@ -17,6 +17,10 @@ class Entertainment(PluginBase):
     def get_category_description(self):
         return "Pesquisar músicas, filmes, etc.."
 
+class Internal(PluginBase):
+    def get_category_description(self):
+        return "Utilitários do sistema, mudar a velocidade de voz"
+
 def get_classes_categories():
     output = dict()
     current_module = sys.modules[__name__]
