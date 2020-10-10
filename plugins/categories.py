@@ -1,6 +1,10 @@
 import sys
 from plugins.plugin_base import PluginBase
 
+class HandleDocument(PluginBase):
+    def get_category_description(self):
+        return "Gerenciar documentos."
+
 class HandleFile(PluginBase):
     def get_category_description(self):
         return "Gerenciar arquivos e pastas."

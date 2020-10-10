@@ -43,6 +43,35 @@ def text_to_speech(text, vocoder_plugin, language="pt"):
     play_output()
 
 
+def text_to_mp3(text, vocode_plugin, language="pt", mp3_filename):
+    speech = gTTS(text = text, lang = language)
+
+    if vocoder_plugin == None:
+        __gtts_to_mp3__(speech, mp3_filename)
+
+    else:
+        (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
+
+        if status == True and error is None:
+            vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
+            delete_file("output_temp.wav")
+            convert_wav_to_mp3("output.wav", "output.mp3")
+
+
+def __gtts_to_mp3__(speech, output_file):
+    try:
+        input_file = "output.wav"
+        speech.save(input_file)
+
+        convert_wav_to_mp3(input_file, output_file)
+        delete_file(input_file)
+
+    except:
+        return (False, sys.exc_info()[0])
+
+    return (True, None)
+
+
 def __gtts_to_wav__(speech, output_file):
     try:
         input_file = "output.mp3"        
@@ -72,9 +101,16 @@ def play(wavfile):
 def delete_file(file_name):
     os.remove(file_name)
 
-def convert_mp3_to_wav(input_mp3: str, output_wav):
+def convert_mp3_to_wav(input_mp3: str, output_wav: str):
     sound = am.from_mp3(input_mp3)
     sound.export(output_wav, format="wav")
+
+def convert_wav_to_mp3(input_wav: str, output_mp3: str):
+    sound = am.from_wav(input_wav)
+    sound.export(output_mp3, format="mp3")
+
+def text_to_mp3(text: str, mp3_file_name: str)
+
 
 # def get_center_of_current_monitor():
 #     mouse = pymouse.PyMouse()

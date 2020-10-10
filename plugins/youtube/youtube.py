@@ -1,5 +1,3 @@
-Entertainment
-
 from yapsy.IPlugin import IPlugin
 from plugins.categories import Entertainment
 from fuzzywuzzy import fuzz
