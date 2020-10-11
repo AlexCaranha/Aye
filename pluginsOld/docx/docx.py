@@ -34,27 +34,28 @@ class Docx(HandleDocument):
         return match        
 
     def run(self, input):
-        match = self.is_the_question(r'ler arquivo (?P<docx_filename>*.docx) e gravar áudio (?P<mp3_filename>.*.mp3)', input)
-        if match:
-            docx_filename = match.group('docx_filename')
-            mp3_filename = match.group('mp3_filename')
+        return None
+        # match = self.is_the_question(r'ler arquivo (?P<docx_filename>*.docx) e gravar áudio (?P<mp3_filename>.*.mp3)', input)
+        # if match:
+        #     docx_filename = match.group('docx_filename')
+        #     mp3_filename = match.group('mp3_filename')
 
-            self.docx_to_mp3(subject, message)
-            return "e-mail enviado com sucesso."
+        #     self.docx_to_mp3(subject, message)
+        #     return "e-mail enviado com sucesso."
 
-        # Ler e copiar para o clipboard.
+        # # Ler e copiar para o clipboard.
         
 
-        # Gerar audio via clipboard.
+        # # Gerar audio via clipboard.
 
 
-        match = self.is_the_question(r'enviar e-mail com o título (?P<subject>.*) e a mensagem (?P<message>.*)', input)
-        if match:
-            subject = match.group('subject')
-            message = match.group('message')
+        # match = self.is_the_question(r'enviar e-mail com o título (?P<subject>.*) e a mensagem (?P<message>.*)', input)
+        # if match:
+        #     subject = match.group('subject')
+        #     message = match.group('message')
 
-            self.send_mail(subject, message)
-            return "e-mail enviado com sucesso."
+        #     self.send_mail(subject, message)
+        #     return "e-mail enviado com sucesso."
 
 text = docx_to_string("C:\\Temp\\teste.docx")
 print(text)

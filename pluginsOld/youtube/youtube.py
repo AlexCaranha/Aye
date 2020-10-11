@@ -9,13 +9,13 @@ class Youtube(Entertainment):
         self.parent = parent
         self.__activate__(False)    
 
-    def get_list_captions(self, url):
-        source = YouTube(url)
-        all = en_caption = source.captions.all()
-        print(all)
+    # def get_list_captions(self, url):
+    #     source = YouTube(url)
+    #     all = en_caption = source.captions.all()
+    #     print(all)
 
     def __activate__(self, value):
         self.activated = value
 
     def run(self, input):
-        print("nothing")
+        return None

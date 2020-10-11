@@ -29,6 +29,14 @@ class Plugin_Manager:
         output = self.manager.getPluginByName(plugin_name, category_name)
         return output
 
+    def get_plugin_class_by_name(self, plugin_name, category_name):
+        output = self.manager.getPluginByName(plugin_name, category_name)
+
+        if output == None:
+            return None
+
+        return output.plugin_object
+
     def get_plugin_info(self, plugin):
         categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
         output = f"plugin: {plugin.name}\n" + \
@@ -60,10 +68,7 @@ class Plugin_Manager:
             if plugin.plugin_object.is_activated_to_answer_now():
                 plugins_activated.append(plugin)
 
-        if len(plugins_activated) > 0:
-            self.current_question = [plugin.plugin_object.get_message_when_plugin_activated_to_answer_now() for plugin in plugins_activated]
-        else:
-            self.current_question = [self.initial_question]
+        self.current_question = self.get_current_messages(plugins_activated)
 
         if len(output) == 0 and len(plugins_activated) == 0:
             return "comando não identificado."
@@ -73,12 +78,31 @@ class Plugin_Manager:
 
         return None
 
+    def get_current_messages(self, plugins_activated:list):
+        if len(plugins_activated) > 0:
+            output = list()
+
+            for plugin in plugins_activated:
+                message = plugin.plugin_object.get_message_when_plugin_activated_to_answer_now()
+
+                if util.isNotBlank(message):
+                    output.append(message)
+
+            if util.isBlank(output):
+                output = [self.initial_question]
+
+            return output
+
+        output = [self.initial_question]
+        return output
+
     def get_current_question(self):
         return ".".join(self.current_question)
 
-    def text_to_speech(self, text, language="pt"):
-        vocoder_plugin = self.get_plugin_by_name("Vocoder", "Internal")
-        util.text_to_speech(text, vocoder_plugin, language)
+    # def text_to_speech(self, text, language="pt"):
+    #     print(text)
+    #     vocoder_plugin = self.get_plugin_by_name("Vocoder", "Internal")
+    #     util.text_to_speech(text, vocoder_plugin, language)
 
 # Translate
 # plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)

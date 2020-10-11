@@ -40,11 +40,11 @@ class Vocoder(Internal):
         percentual = self.is_the_question_with_sentence(r'aumentar velocidade do áudio em (?P<sentence>.*)%', input)
         if percentual is not None:
             self.speed += (int(percentual) / 100)
-            return f"velocidade do áudio aumentada em {self.percentual}%."
+            return f"velocidade do áudio aumentada em {percentual}%."
 
         percentual = self.is_the_question_with_sentence(r'diminuir velocidade do áudio em (?P<sentence>.*)%', input)
         if percentual is not None:
             self.speed -= (int(percentual) / 100)
-            return f"velocidade do áudio reduzida em {self.percentual}%."
+            return f"velocidade do áudio reduzida em {percentual}%."
 
         return None

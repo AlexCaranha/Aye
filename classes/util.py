@@ -27,27 +27,14 @@ def resample(filepath: str, new_frame_rate: int = 8000):
 
 # resample(".\input.wav")
 
-def text_to_speech(text, vocoder_plugin, language="pt"):
+def text_to_speech(text, vocoder_plugin, language="pt", play=True):
     speech = gTTS(text = text, lang = language, slow = False)
 
     if vocoder_plugin == None:
         __gtts_to_wav__(speech, "output.wav")
 
-    else:
-        (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
-
-        if status == True and error is None:
-            vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
-            delete_file("output_temp.wav")
-
-    play_output()
-
-
-def text_to_mp3(text, vocode_plugin, language="pt", mp3_filename):
-    speech = gTTS(text = text, lang = language)
-
-    if vocoder_plugin == None:
-        __gtts_to_mp3__(speech, mp3_filename)
+        if play:
+            play_output()
 
     else:
         (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
@@ -55,7 +42,24 @@ def text_to_mp3(text, vocode_plugin, language="pt", mp3_filename):
         if status == True and error is None:
             vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
             delete_file("output_temp.wav")
-            convert_wav_to_mp3("output.wav", "output.mp3")
+
+            if play:
+                play_output()
+
+
+# def text_to_mp3(text, vocode_plugin, language="pt", mp3_filename):
+#     speech = gTTS(text = text, lang = language)
+
+#     if vocoder_plugin == None:
+#         __gtts_to_mp3__(speech, mp3_filename)
+
+#     else:
+#         (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
+
+#         if status == True and error is None:
+#             vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
+#             delete_file("output_temp.wav")
+#             convert_wav_to_mp3("output.wav", "output.mp3")
 
 
 def __gtts_to_mp3__(speech, output_file):
@@ -109,7 +113,31 @@ def convert_wav_to_mp3(input_wav: str, output_mp3: str):
     sound = am.from_wav(input_wav)
     sound.export(output_mp3, format="mp3")
 
-def text_to_mp3(text: str, mp3_file_name: str)
+def isBlank(myString:str):
+    if myString == None or myString == '':
+        return True
+
+    if isinstance(myString, list):
+        return myString is None or len(myString) == 0
+
+    if isinstance(myString, str):
+        return not (myString and myString.strip())
+
+    return None
+
+def isNotBlank (myString:str):
+    if myString == None or myString == '':
+        return False
+
+    if isinstance(myString, list):
+        return myString is not None or len(myString) > 0
+
+    if isinstance(myString, str):
+        return bool(myString and myString.strip())
+
+    return None
+
+# def text_to_mp3(text: str, mp3_file_name: str)
 
 
 # def get_center_of_current_monitor():
