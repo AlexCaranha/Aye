@@ -32,7 +32,6 @@ def callback(recognizer, audio):
 r = sr.Recognizer()
 m = sr.Microphone()
 
-
 print("microfones: ")
 microfones = m.list_microphone_names()
 microfones_desc = [f"{index}: {name}" for (index, name) in enumerate(microfones) if "microfone" in name.lower() or "input" in name.lower()]

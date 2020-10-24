@@ -18,7 +18,17 @@ class Recorder(HandleFile):
             if self.is_the_question(r'terminar gravação de áudio', input, 95):
                 self.activated = False
                 return "Gravação finalizada."
+                
         
         if self.is_the_question(r'nova gravação de áudio', input, 95):
             self.activated = True
             return "Gravação iniciada."
+
+
+# from pydub import AudioSegment
+
+# sound1 = AudioSegment.from_wav("/path/to/file1.wav")
+# sound2 = AudioSegment.from_wav("/path/to/file2.wav")
+
+# combined_sounds = sound1 + sound2
+# combined_sounds.export("/output/path.wav", format="wav")
