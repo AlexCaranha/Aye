@@ -13,8 +13,6 @@ class Core(Internal):
         print(f"{parent.name} loaded: ok.")
 
     def is_the_question(self, pattern, input: str):
-        # ratio = fuzz.token_set_ratio(pattern, input)
-        # return ratio > threshold
         options = pattern.split(" | ")
         status = len(list(filter(lambda o : o.lower() == input.lower(), options))) > 0
         return status

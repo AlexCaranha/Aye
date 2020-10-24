@@ -9,23 +9,19 @@ m = sr.Microphone()
 manager = Plugin_Manager()
 manager.setup_plugin_manager()
 
-core = manager.get_plugin_class_by_name("Core", "Internal")
-speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
-keyboard = manager.get_plugin_class_by_name("Keyboard", "Internal")
-
 try:
     speaker.speak("Iniciando assistente Beth")
+    core = manager.get_plugin_class_by_name("Core", "Internal")
+    speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
+    keyboard = manager.get_plugin_class_by_name("Keyboard", "Internal")
 
     with m as source:
         r.adjust_for_ambient_noise(source)
-        print(f"Configurando mínimo limiar para reconhecimento de fala em {r.energy_threshold}")
+        print(f"Configurado limiar mínimo para reconhecimento de fala: {r.energy_threshold}")
 
         while True:
             speaker.speak(manager.get_current_question())
             audio = r.listen(source)
-
-            # with open('input.wav', 'wb') as f:
-            #     f.write(audio.get_wav_data())
 
             # Verificar a energia do sinal.
             # TODO: A FAZER.
@@ -56,7 +52,7 @@ try:
                         speaker.speak(output)
                         speaker.activated = core.activated
 
-                if input == "configurar limiar":
+                if input == "comando configurar som ambiente":
                     r.adjust_for_ambient_noise(source)
                     speaker.speak(f"Silêncio configurado com sucesso. Limiar em {r.energy_threshold}.")
                     continue

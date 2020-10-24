@@ -1,10 +1,10 @@
 
 from plugins.categories import get_classes_categories
 from yapsy.PluginManager import PluginManager
-import classes.util as util
-
+import classes.util as util 
+ 
 class Plugin_Manager:    
-    def setup_plugin_manager(self):
+     def setup_plugin_manager(self):
         self.initial_question = "O que você deseja?"
         self.current_question = [self.initial_question]
 
@@ -88,7 +88,7 @@ class Plugin_Manager:
                 if util.isNotBlank(message):
                     output.append(message)
 
-            if util.isBlank(output):
+            if util.is_blank(output):
                 output = [self.initial_question]
 
             return output
@@ -99,10 +99,6 @@ class Plugin_Manager:
     def get_current_question(self):
         return ".".join(self.current_question)
 
-    # def text_to_speech(self, text, language="pt"):
-    #     print(text)
-    #     vocoder_plugin = self.get_plugin_by_name("Vocoder", "Internal")
-    #     util.text_to_speech(text, vocoder_plugin, language)
 
 # Translate
 # plugin = get_plugin_by_name("Translate", "Knowledge", plugin_manager)

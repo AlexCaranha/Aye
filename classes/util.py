@@ -13,7 +13,18 @@ import os.path
 
 from gtts import gTTS
 from pydub import AudioSegment as am
-__author__ = 'Alex Libório Caranha'
+
+from fuzzywuzzy import fuzz
+import re
+
+
+def is_the_question(pattern, input: str, threshold = 85):
+    ratio = fuzz.token_set_ratio(pattern, input)
+    return ratio > threshold
+
+def is_the_question_with_sentence(pattern, input: str):
+    match = re.search(pattern, input, re.IGNORECASE)
+    return match
 
 def resample(filepath: str, new_frame_rate: int = 8000):
     if not os.path.isfile(filepath):
@@ -25,7 +36,6 @@ def resample(filepath: str, new_frame_rate: int = 8000):
     
     return True
 
-# resample(".\input.wav")
 
 def text_to_speech(text, vocoder_plugin, language="pt", play=True):
     speech = gTTS(text = text, lang = language, slow = False)
@@ -45,21 +55,6 @@ def text_to_speech(text, vocoder_plugin, language="pt", play=True):
 
             if play:
                 play_output()
-
-
-# def text_to_mp3(text, vocode_plugin, language="pt", mp3_filename):
-#     speech = gTTS(text = text, lang = language)
-
-#     if vocoder_plugin == None:
-#         __gtts_to_mp3__(speech, mp3_filename)
-
-#     else:
-#         (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
-
-#         if status == True and error is None:
-#             vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
-#             delete_file("output_temp.wav")
-#             convert_wav_to_mp3("output.wav", "output.mp3")
 
 
 def __gtts_to_mp3__(speech, output_file):
@@ -113,7 +108,7 @@ def convert_wav_to_mp3(input_wav: str, output_mp3: str):
     sound = am.from_wav(input_wav)
     sound.export(output_mp3, format="mp3")
 
-def isBlank(myString:str):
+def is_blank(myString:str):
     if myString == None or myString == '':
         return True
 
