@@ -42,7 +42,9 @@ class Keyboard(Internal):
         return output
 
     def is_waiting_press_enter(self):
-        # The event listener will be running in this block
+        """
+        Press enter to exit waiting mode.
+        """
         input("Press Enter to continue...")
 
     def run(self, input):

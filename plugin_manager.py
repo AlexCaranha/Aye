@@ -4,7 +4,7 @@ from yapsy.PluginManager import PluginManager
 import classes.util as util 
  
 class Plugin_Manager:    
-     def setup_plugin_manager(self):
+    def setup_plugin_manager(self):
         self.initial_question = "O que você deseja?"
         self.current_question = [self.initial_question]
 
@@ -85,7 +85,7 @@ class Plugin_Manager:
             for plugin in plugins_activated:
                 message = plugin.plugin_object.get_message_when_plugin_activated_to_answer_now()
 
-                if util.isNotBlank(message):
+                if util.is_not_blank(message):
                     output.append(message)
 
             if util.is_blank(output):

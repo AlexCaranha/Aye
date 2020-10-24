@@ -18,6 +18,9 @@ from fuzzywuzzy import fuzz
 import re
 
 
+def iif(condition, then_value, else_value):
+    return then_value if condition else else_value
+
 def is_the_question(pattern, input: str, threshold = 85):
     ratio = fuzz.token_set_ratio(pattern, input)
     return ratio > threshold
@@ -120,7 +123,7 @@ def is_blank(myString:str):
 
     return None
 
-def isNotBlank (myString:str):
+def is_not_blank (myString:str):
     if myString == None or myString == '':
         return False
 
@@ -131,8 +134,6 @@ def isNotBlank (myString:str):
         return bool(myString and myString.strip())
 
     return None
-
-# def text_to_mp3(text: str, mp3_file_name: str)
 
 
 # def get_center_of_current_monitor():

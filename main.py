@@ -1,77 +1,58 @@
 
-import speech_recognition as sr
-import classes.util as util
+from classes.util import is_blank, is_not_blank
 from plugin_manager import Plugin_Manager
-
-r = sr.Recognizer()
-m = sr.Microphone()
 
 manager = Plugin_Manager()
 manager.setup_plugin_manager()
 
-try:
-    speaker.speak("Iniciando assistente Beth")
-    core = manager.get_plugin_class_by_name("Core", "Internal")
-    speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
-    keyboard = manager.get_plugin_class_by_name("Keyboard", "Internal")
+core = manager.get_plugin_class_by_name("Core", "Internal")
+speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
 
-    with m as source:
-        r.adjust_for_ambient_noise(source)
-        print(f"Configurado limiar mínimo para reconhecimento de fala: {r.energy_threshold}")
+speaker.speak("Iniciando assistente Beth")
 
-        while True:
-            speaker.speak(manager.get_current_question())
-            audio = r.listen(source)
+while core.is_it_exiting is False:
 
-            # Verificar a energia do sinal.
-            # TODO: A FAZER.
-            
-            try:
-                # recognize speech using Google Speech Recognition
-                input = r.recognize_google(audio, language="pt-BR")                
+    # Beth speaks a message.
+    speaker.speak(manager.get_current_question())
 
-                speaker.speak_what_i_say(input)
-                output = core.run(input)
+    # user inputs a command.
+    (input, error) = core.listen()
 
-                if util.isNotBlank(output):
-                    if core.is_it_exiting:                    
-                        speaker.speak(output)
-                        speaker.activated = False
-                        break
+    # Some error occurred.
+    if is_not_blank(error):
+        speaker.speak(error)
+        continue
 
-                    if core.is_it_waiting:                        
-                        speaker.speak(output)
-                        speaker.activated = False                        
+    # next input from the user.
+    if is_blank(input):
+        continue
 
-                        keyboard.is_waiting_press_enter()
+    # Beth speaks what the user said.
+    speaker.speak_what_i_say(input)
 
-                        speaker.activated = True
-                        core.mode_waiting_off()
-                        continue
-                    else:
-                        speaker.speak(output)
-                        speaker.activated = core.activated
+    # Beth processes the user's command.
+    output = core.run(input)
 
-                if input == "comando configurar som ambiente":
-                    r.adjust_for_ambient_noise(source)
-                    speaker.speak(f"Silêncio configurado com sucesso. Limiar em {r.energy_threshold}.")
-                    continue
+    # Processing message from Beth's core.
+    if is_not_blank(output) is True:
+        # next input from the user.
+        if core.is_it_exiting:
+            speaker.speak(output)
+            continue
+        
+        # waiting mode activate.
+        if core.is_it_waiting is True:
+            speaker.speak(output)
+            speaker.activated = False                        
+            continue
 
-                output = manager.run_plugins(input)
-                if output is not None:
-                    speaker.speak(output)                
+        # waiting mode deactivate.
+        if core.is_it_waiting is False:
+            speaker.activated = True
+            speaker.speak(output)
+            continue
 
-            except IndexError: # the API key didn't work
-                print("No internet connection")
-
-            except LookupError: # speech is unintelligible      
-                print("Could not understand audio")
-
-            except sr.UnknownValueError:
-                speaker.speak("Comando não reconhecido.")
-
-            except sr.RequestError as e:
-                print(f"Uh oh! Não foi possível realizar requisição ao serviço de reconhecimento de fala da Google: {e}")
-
-except KeyboardInterrupt:
-    pass
+    # process command by plugins.
+    output = manager.run_plugins(input)
+    if output is not None:
+        speaker.speak(output)

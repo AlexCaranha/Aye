@@ -1,9 +1,9 @@
 [Core]
-Name = Vocoder
-Module = vocoder
+Name = Clock
+Module = clock
 
 [Documentation]
 Author = Alex Liborio Caranha
 Version = 0.1
 Website = https://github.com/AlexCaranha/Beth
-Description = Vocoder
+Description = Clock

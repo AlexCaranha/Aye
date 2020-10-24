@@ -28,6 +28,7 @@ class Internal(PluginBase):
 def get_classes_categories():
     output = dict()
     current_module = sys.modules[__name__]
+    
     for key in dir(current_module):
         if isinstance( getattr(current_module, key), type) and key != "PluginBase":
             output[key] = eval(key)

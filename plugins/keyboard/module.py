@@ -2,7 +2,6 @@
 import keyboard
 from classes.util import is_blank
 
-
 def write_sentence(sentence:str):
     if is_blank(sentence):
         return "texto não informado"

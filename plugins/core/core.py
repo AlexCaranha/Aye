@@ -2,6 +2,8 @@
 from yapsy.IPlugin import IPlugin
 from plugins.categories import Internal
 from fuzzywuzzy import fuzz
+import plugins.core.module as module
+from classes.util import iif
 
 class Core(Internal):
     def setup(self, parent):
@@ -36,7 +38,7 @@ class Core(Internal):
 
     def mode_waiting_on(self):
         self.is_it_waiting = True
-        return "Bete entrou em modo de espera. Pressione enter para sair do modo de espera."
+        return "Bete entrou em modo de espera."
 
     def mode_waiting_off(self):
         self.is_it_waiting = False
@@ -49,7 +51,14 @@ class Core(Internal):
         if self.is_the_question(r'Beth dormir | Beth suspender | Beth esperar | Suspender assistente', input):
             return self.mode_waiting_on()
 
+        if self.is_the_question(r'Beth acordar | sair do modo de espera', input):
+            return self.mode_waiting_off()
+
         return None
+
+    def listen(self) -> str:
+        phrase_time_limit = iif(self.is_it_waiting, 3, None)
+        return module.listen(phrase_time_limit)
 
     def run(self, input):
         if self.is_it_waiting:
