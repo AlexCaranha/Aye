@@ -45,13 +45,13 @@ class Keyboard(Internal):
 
     def run(self, input):
         if self.activated:
-            if self.is_the_question(r'sair do modo escrita', input, 95):
+            if self.is_the_question(r'não quero mais escrever', input, 95):
                 self.activated = False
                 return "Você saiu do plugin de escrever."
 
             return self.commands_in_normal_mode(input)
 
-        if self.is_the_question(r'entrar no modo escrita', input, 95):
+        if self.is_the_question(r'quero escrever', input, 95):
             self.activated = True
             return None
 

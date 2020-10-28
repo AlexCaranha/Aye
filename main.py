@@ -11,15 +11,10 @@ print("Carregando plugins.")
 manager.setup_plugin_manager()
 
 speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
-if speaker is None:
-    print("Speaker = None")
-else:
-    print("Speaker <> None")
-
 speaker.speak("Iniciando assistente Beth")
 
 core = manager.get_plugin_class_by_name("Core", "Internal")
-# core.adjust_threshold()
+core.adjust_threshold()
 
 while core.is_it_exiting is False:
 

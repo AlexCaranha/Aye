@@ -11,9 +11,9 @@ def listen(phrase_time_limit = None):
     try:
         with m as source:
             if phrase_time_limit is None:
-                audio = r.listen(source)
+                audio = r.listen(source, timeout=10)
             else:
-                audio = r.listen(source, phrase_time_limit=phrase_time_limit)
+                audio = r.listen(source, timeout=10, phrase_time_limit=phrase_time_limit)
 
             try:
                 message = r.recognize_google(audio, language="pt-BR")
