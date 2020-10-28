@@ -26,5 +26,4 @@ Para atualizar a lista de dependências (requirements.txt):
 pip freeze > requirements.txt
 
 Gerar executável:
-pyinstaller --onefile main.py 
-pyinstaller --onefile --noconsole main.py 
+generate_executable.bat

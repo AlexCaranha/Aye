@@ -20,3 +20,7 @@ class PluginBase(ABC):
     @abstractmethod
     def get_message_when_plugin_activated_to_answer_now(self):
         return
+
+    @abstractmethod
+    def run(self, input):
+        return

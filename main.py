@@ -1,14 +1,25 @@
 
+from typing import cast
 from classes.util import is_blank, is_not_blank
 from plugin_manager import Plugin_Manager
+from plugins.speaker.speaker import Speaker
 
+print("Instanciando Plugin Manager.")
 manager = Plugin_Manager()
+
+print("Carregando plugins.")
 manager.setup_plugin_manager()
 
-core = manager.get_plugin_class_by_name("Core", "Internal")
 speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
+if speaker is None:
+    print("Speaker = None")
+else:
+    print("Speaker <> None")
 
 speaker.speak("Iniciando assistente Beth")
+
+core = manager.get_plugin_class_by_name("Core", "Internal")
+# core.adjust_threshold()
 
 while core.is_it_exiting is False:
 

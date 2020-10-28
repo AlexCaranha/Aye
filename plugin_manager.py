@@ -1,71 +1,44 @@
 
 from plugins.categories import get_classes_categories
-from yapsy.PluginManager import PluginManager
 import classes.util as util 
- 
-class Plugin_Manager:    
+
+from plugins.core.core import Core
+from plugins.speaker.speaker import Speaker
+from plugins.clock.clock import Clock
+from plugins.dictionary.dictionary import Dicionary
+from plugins.keyboard.keyboard import Keyboard
+from plugins.translate.translate import Translate
+from plugins.wikipedia.wikipedia import Wikipedia
+
+class Plugin_Manager:
     def setup_plugin_manager(self):
         self.initial_question = "O que você deseja?"
         self.current_question = [self.initial_question]
 
-        self.manager = PluginManager()
-        self.manager.setCategoriesFilter(get_classes_categories())
-        self.manager.setPluginPlaces(["plugins"])
-        self.manager.collectPlugins()
-
-        plugins = self.manager.getAllPlugins()
-        for plugin in plugins:
-            self.setup_plugin(plugin)
-
-    def get_categories(self):
-        output = self.manager.getCategories()
-        return output
-
-    def get_plugins_of_category(self, category_name):
-        output = self.manager.getPluginsOfCategory(category_name)    
-        return output
-
-    def get_plugin_by_name(self, plugin_name, category_name):
-        output = self.manager.getPluginByName(plugin_name, category_name)
-        return output
+        self.plugins = [Core(), Speaker(), Clock(), Dicionary(), Keyboard(), Translate(), Wikipedia()]
+        for plugin in self.plugins:
+            plugin.setup()
 
     def get_plugin_class_by_name(self, plugin_name, category_name):
-        output = self.manager.getPluginByName(plugin_name, category_name)
+        output = [plugin for plugin in self.plugins if plugin.__class__.__name__ == plugin_name]
 
         if output == None:
             return None
 
-        return output.plugin_object
-
-    def get_plugin_info(self, plugin):
-        categories = ", ".join([category for category in plugin.categories if category != "Plugin"])
-        output = f"plugin: {plugin.name}\n" + \
-                f"categories: {categories}\n" + \
-                f"author: {plugin.author}\n" + \
-                f"description: {plugin.description}."
-
-        return output
-
-    def setup_plugin(self, plugin):
-        plugin.plugin_object.setup(parent=plugin)
-
-    def run_plugin(self, plugin, sentence):
-        output = plugin.plugin_object.run(sentence)
-        return output
+        return output[0]
 
     def run_plugins(self, input):
-        plugins = self.manager.getAllPlugins()
-
         plugins_activated = []
         output = []
 
-        for plugin in plugins:
-            message = self.run_plugin(plugin, sentence=input)
+        for plugin in self.plugins:
+            message = plugin.run(input)
 
             if message is not None:
-                output.append(f"{plugin.name} retornou: {message}")
+                plugin_name = plugin.__class__.__name__
+                output.append(f"{plugin_name} retornou: {message}")
                 
-            if plugin.plugin_object.is_activated_to_answer_now():
+            if plugin.is_activated_to_answer_now():
                 plugins_activated.append(plugin)
 
         self.current_question = self.get_current_messages(plugins_activated)
@@ -83,7 +56,7 @@ class Plugin_Manager:
             output = list()
 
             for plugin in plugins_activated:
-                message = plugin.plugin_object.get_message_when_plugin_activated_to_answer_now()
+                message = plugin.get_message_when_plugin_activated_to_answer_now()
 
                 if util.is_not_blank(message):
                     output.append(message)

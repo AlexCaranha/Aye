@@ -7,8 +7,8 @@ from fuzzywuzzy import fuzz
 import re
 
 class Dicionary(Knowledge):
-    def setup(self, parent):
-        self.parent = parent
+    def setup(self):
+        print(f"Dicionary loaded: ok.")
         self.activated = False
 
     def is_activated_to_answer_now(self):

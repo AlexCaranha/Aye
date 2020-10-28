@@ -4,10 +4,9 @@ from googletrans import Translator
 import re
 
 class Translate(Knowledge):
-    def setup(self, parent):
-        self.parent = parent
+    def setup(self):
         self.translator = Translator()
-        print(f"{parent.name} loaded: ok.")
+        print(f"Translate loaded: ok.")
 
     def translate_from_to(self, sentence, language_from, language_to):        
         output = self.translator.translate(sentence, src=language_from, dest=language_to)        

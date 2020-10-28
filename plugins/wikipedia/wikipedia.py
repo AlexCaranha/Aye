@@ -4,12 +4,11 @@ import wikipedia as wiki
 from fuzzywuzzy import fuzz
 
 class Wikipedia(Knowledge):
-    def setup(self, parent):
-        self.parent = parent
+    def setup(self):
         self.__activate__(False)
 
         wiki.set_lang("pt")
-        print(f"{parent.name} loaded: ok.")
+        print(f"Wikipedia loaded: ok.")
 
     def __activate__(self, value):
         self.activated = value

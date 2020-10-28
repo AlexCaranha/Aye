@@ -6,13 +6,14 @@ import plugins.core.module as module
 from classes.util import iif
 
 class Core(Internal):
-    def setup(self, parent):
-        self.parent = parent        
-
+    def setup(self):
         self.is_it_waiting = False
         self.is_it_exiting = False
 
-        print(f"{parent.name} loaded: ok.")
+        print(f"Core loaded: ok.")
+
+    def adjust_threshold(self):
+        module.adjust_threshold()
 
     def is_the_question(self, pattern, input: str):
         options = pattern.split(" | ")

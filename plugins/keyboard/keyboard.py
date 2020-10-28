@@ -4,10 +4,9 @@ import plugins.keyboard.module as module
 from fuzzywuzzy import fuzz
 
 class Keyboard(Internal):
-    def setup(self, parent):
-        self.parent = parent        
+    def setup(self):
         self.activated = False
-        print(f"{parent.name} loaded: ok.")
+        print(f"Keyboard loaded: ok.")
 
     def write(self, sentence:str):
         return module.write_sentence(sentence)

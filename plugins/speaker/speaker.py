@@ -3,10 +3,10 @@ from yapsy.IPlugin import IPlugin
 from plugins.categories import Internal
 from classes.util import is_the_question, is_the_question_with_sentence
 import pyttsx3
+from pyttsx3.drivers import sapi5
 
 class Speaker(Internal):
-    def setup(self, parent):
-        self.parent = parent
+    def setup(self):
         self.is_repeat_what_i_say_activated = True
 
         self.activated = True
@@ -16,7 +16,7 @@ class Speaker(Internal):
         self.default_rate = self.engine.getProperty('rate')
         self.rate = self.default_rate
 
-        print(f"{parent.name} loaded: ok.")
+        print(f"Speaker loaded: ok.")
 
     def __setup_voices__(self):
         voices = self.engine.getProperty('voices')
