@@ -1,5 +1,4 @@
 
-from typing import cast
 from classes.util import is_blank, is_not_blank
 from plugin_manager import Plugin_Manager
 from plugins.speaker.speaker import Speaker
