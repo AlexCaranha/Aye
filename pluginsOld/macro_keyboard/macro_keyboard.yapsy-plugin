@@ -1,9 +1,0 @@
-[Core]
-Name = Macro_Keyboard
-Module = macro_keyboard
-
-[Documentation]
-Author = Alex Liborio Caranha
-Version = 0.1
-Website = https://github.com/AlexCaranha/Beth
-Description = Macro_Keyboard

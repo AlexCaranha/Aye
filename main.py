@@ -1,63 +1,21 @@
 
-from classes.util import is_blank, is_not_blank
-from plugin_manager import Plugin_Manager
-from plugins.speaker.speaker import Speaker
+from manager import Manager
 
-print("Instanciando Plugin Manager.")
-manager = Plugin_Manager()
+print("starting Beth")
+manager = Manager()
 
-print("Carregando plugins.")
-manager.setup_plugin_manager()
+print("loading plugins")
+manager.load_plugins()
 
-speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
-speaker.speak("Iniciando assistente Beth")
+manager.adjust_threshold()
 
-core = manager.get_plugin_class_by_name("Core", "Internal")
-core.adjust_threshold()
+manager.speak("Assistente Beth a seu dispor", is_print=True)
 
-while core.is_it_exiting is False:
+while(manager.is_running() is True):
 
-    # Beth speaks a message.
-    speaker.speak(manager.get_current_question())
+    (input, error) = manager.listen(is_print=True)
 
-    # user inputs a command.
-    (input, error) = core.listen()
+    if (input == "sair"):
+        break
 
-    # Some error occurred.
-    if is_not_blank(error):
-        speaker.speak(error)
-        continue
-
-    # next input from the user.
-    if is_blank(input):
-        continue
-
-    # Beth speaks what the user said.
-    speaker.speak_what_i_say(input)
-
-    # Beth processes the user's command.
-    output = core.run(input)
-
-    # Processing message from Beth's core.
-    if is_not_blank(output) is True:
-        # next input from the user.
-        if core.is_it_exiting:
-            speaker.speak(output)
-            continue
-        
-        # waiting mode activate.
-        if core.is_it_waiting is True:
-            speaker.speak(output)
-            speaker.activated = False                        
-            continue
-
-        # waiting mode deactivate.
-        if core.is_it_waiting is False:
-            speaker.activated = True
-            speaker.speak(output)
-            continue
-
-    # process command by plugins.
-    output = manager.run_plugins(input)
-    if output is not None:
-        speaker.speak(output)
+print("Assistente Beth finalizada")

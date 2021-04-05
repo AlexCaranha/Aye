@@ -1,9 +1,0 @@
-[Core]
-Name = Docx
-Module = docx
-
-[Documentation]
-Author = Alex Liborio Caranha
-Version = 0.1
-Website = https://github.com/AlexCaranha/Beth
-Description = Docx

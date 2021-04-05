@@ -1,9 +1,0 @@
-[Core]
-Name = Recorder
-Module = recorder
-
-[Documentation]
-Author = Alex Liborio Caranha
-Version = 0.1
-Website = https://github.com/AlexCaranha/Beth
-Description = Recorder

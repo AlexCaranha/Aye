@@ -111,6 +111,13 @@ def convert_wav_to_mp3(input_wav: str, output_mp3: str):
     sound = am.from_wav(input_wav)
     sound.export(output_mp3, format="mp3")
 
+def iif(condition, then_value, else_value):
+    return then_value if condition else else_value
+
+def do_if(action, condition:bool):
+    if (condition):
+        action
+
 def is_blank(myString:str):
     if myString == None or myString == '':
         return True
@@ -123,7 +130,7 @@ def is_blank(myString:str):
 
     return None
 
-def is_not_blank (myString:str):
+def is_not_blank(myString:str):
     if myString == None or myString == '':
         return False
 
