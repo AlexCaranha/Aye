@@ -50,12 +50,12 @@ class Manager():
         core_plugin.adjust_threshold()
 
     def speak(self, phrase:str, is_print:bool):
-        self.execute("speak", f"speak {phrase}")        
         self.do_if(print(phrase), is_print)
+        self.execute("speak", f"speak {phrase}")        
 
-    def listen(self, is_print) -> str:
+    def listen_from_microphone(self) -> str:
         core_plugin = self.get_plugin("core")        
-        return core_plugin.listen(is_print)
+        return core_plugin.listen()
 
     def is_running(self):
         core_plugin = self.get_plugin("core")

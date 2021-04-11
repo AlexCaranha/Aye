@@ -33,14 +33,25 @@ class CorePlugin:
 
         return None
 
-    def listen(self, is_print:bool):
-        phrase_time_limit = 3
-        (phrase, error) = module.listen(phrase_time_limit)
+    def is_magic_word_in_sentence(self, sentence:str):
+        if sentence is None:
+            return False
 
-        do_if(print(phrase), condition=(is_print and is_not_blank(phrase)))
-        do_if(print(error), condition=(is_print and is_not_blank(error)))
+        sentence_lowered = sentence.lower()
+        return "assistente" in sentence_lowered
 
-        return (phrase, error)
+    def listen(self):
+
+        while True:
+            (sentence, error) = module.listen_from_microphone()
+
+            if self.is_magic_word_in_sentence(sentence):
+                break
+
+            # if error != None:
+            #     break
+
+        return (sentence, error)
 
     def adjust_threshold(self):
         module.adjust_threshold()

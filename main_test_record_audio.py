@@ -9,6 +9,7 @@ def adjust_threshold():
     with m as source:
         r.adjust_for_ambient_noise(source, duration=0.5)
 
+    r.dynamic_energy_threshold = True  
     print(f"energy threshold: {r.energy_threshold}")
     return r.energy_threshold
 
