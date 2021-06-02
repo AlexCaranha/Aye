@@ -85,7 +85,7 @@ threadpoolctl==2.1.0
 typed-ast==1.4.1
 typing-extensions==3.7.4.2
 uritemplate==3.0.1
-urllib3==1.25.9
+urllib3==1.26.5
 virtualenv==20.0.18
 wikipedia==1.4.0
 wrapt==1.11.2
