@@ -38,7 +38,7 @@ keyboard==0.13.5
 lazy-object-proxy==1.4.3
 librosa==0.7.2
 llvmlite==0.33.0
-lxml==4.6.3
+lxml==4.6.5
 mccabe==0.6.1
 numba==0.50.1
 numpy==1.18.4
