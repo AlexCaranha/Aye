@@ -69,7 +69,7 @@ pytube==9.6.0
 pytube3==9.6.4
 pytz==2020.1
 PyUserInput==0.1
-pywin32==227
+pywin32==301
 pywin32-ctypes==0.2.0
 PyYAML==5.4
 requests==2.23.0
