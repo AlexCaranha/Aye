@@ -5,14 +5,15 @@
 
 # import pymouse
 # from screeninfo import get_monitors
-from playsound import playsound
-import simpleaudio as sa
+# from playsound import playsound
+# import simpleaudio as sa
 
-import os, sys
+import os
+import sys
 import os.path
 
-from gtts import gTTS
-from pydub import AudioSegment as am
+# from gtts import gTTS
+# from pydub import AudioSegment as am
 
 from fuzzywuzzy import fuzz
 import re
@@ -21,13 +22,16 @@ import re
 def iif(condition, then_value, else_value):
     return then_value if condition else else_value
 
-def is_the_question(pattern, input: str, threshold = 85):
+
+def is_the_question(pattern, input: str, threshold=85):
     ratio = fuzz.token_set_ratio(pattern, input)
     return ratio > threshold
+
 
 def is_the_question_with_sentence(pattern, input: str):
     match = re.search(pattern, input, re.IGNORECASE)
     return match
+
 
 def resample(filepath: str, new_frame_rate: int = 8000):
     if not os.path.isfile(filepath):
@@ -36,12 +40,12 @@ def resample(filepath: str, new_frame_rate: int = 8000):
     sound = am.from_file(filepath, format='wav')
     sound = sound.set_frame_rate(new_frame_rate)
     sound.export("output_8khz", format='wav')
-    
+
     return True
 
 
 def text_to_speech(text, vocoder_plugin, language="pt", play=True):
-    speech = gTTS(text = text, lang = language, slow = False)
+    speech = gTTS(text=text, lang=language, slow=False)
 
     if vocoder_plugin == None:
         __gtts_to_wav__(speech, "output.wav")
@@ -53,7 +57,8 @@ def text_to_speech(text, vocoder_plugin, language="pt", play=True):
         (status, error) = __gtts_to_wav__(speech, "output_temp.wav")
 
         if status == True and error is None:
-            vocoder_plugin.plugin_object.change_time("output_temp.wav", "output.wav")
+            vocoder_plugin.plugin_object.change_time(
+                "output_temp.wav", "output.wav")
             delete_file("output_temp.wav")
 
             if play:
@@ -76,7 +81,7 @@ def __gtts_to_mp3__(speech, output_file):
 
 def __gtts_to_wav__(speech, output_file):
     try:
-        input_file = "output.mp3"        
+        input_file = "output.mp3"
         speech.save(input_file)
 
         convert_mp3_to_wav(input_file, output_file)
@@ -86,6 +91,7 @@ def __gtts_to_wav__(speech, output_file):
         return (False, sys.exc_info()[0])
 
     return (True, None)
+
 
 def play_output():
     filename = 'output.wav'
@@ -97,21 +103,26 @@ def play_output():
     # playsound('output.wav')
     os.remove('output.wav')
 
+
 def play(wavfile):
     playsound(wavfile)
 
+
 def delete_file(file_name):
     os.remove(file_name)
+
 
 def convert_mp3_to_wav(input_mp3: str, output_wav: str):
     sound = am.from_mp3(input_mp3)
     sound.export(output_wav, format="wav")
 
+
 def convert_wav_to_mp3(input_wav: str, output_mp3: str):
     sound = am.from_wav(input_wav)
     sound.export(output_mp3, format="mp3")
 
-def is_blank(myString:str):
+
+def is_blank(myString: str):
     if myString == None or myString == '':
         return True
 
@@ -123,7 +134,8 @@ def is_blank(myString:str):
 
     return None
 
-def is_not_blank (myString:str):
+
+def is_not_blank(myString: str):
     if myString == None or myString == '':
         return False
 

@@ -27,3 +27,9 @@ pip freeze > requirements.txt
 
 Gerar executável:
 generate_executable.bat
+
+
+
+In linux:
+sudo apt-get install portaudio19-dev python-pyaudio
+pip install PyAudio

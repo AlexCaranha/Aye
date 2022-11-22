@@ -10,7 +10,7 @@ print("Carregando plugins.")
 manager.setup_plugin_manager()
 
 speaker = manager.get_plugin_class_by_name("Speaker", "Internal")
-speaker.speak("Iniciando assistente Beth. Diga Beth para acionar a assistente.")
+speaker.speak("Iniciando assistente Beth")
 
 core = manager.get_plugin_class_by_name("Core", "Internal")
 core.adjust_threshold()
@@ -44,11 +44,11 @@ while core.is_it_exiting is False:
         if core.is_it_exiting:
             speaker.speak(output)
             continue
-
+        
         # waiting mode activate.
         if core.is_it_waiting is True:
             speaker.speak(output)
-            speaker.activated = False
+            speaker.activated = False                        
             continue
 
         # waiting mode deactivate.

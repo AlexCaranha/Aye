@@ -1,7 +1,7 @@
 
+from yapsy.IPlugin import IPlugin
 from plugins.categories import Internal
 from classes.util import is_the_question, is_the_question_with_sentence
-from module import speak as gtts_speak
 
 
 class Speaker(Internal):
@@ -9,21 +9,26 @@ class Speaker(Internal):
         self.is_repeat_what_i_say_activated = True
 
         self.activated = True
-        self.language = 'pt'
-        self.default_rate = 100
+
+        self.default_rate = self.engine.getProperty('rate')
         self.rate = self.default_rate
 
         print(f"Speaker loaded: ok.")
 
     def set_rate(self, rate, rate_variation):
+        if not rate is None:
+            self.rate = rate
+            self.engine.setProperty('rate', rate)
+            return
+
         self.rate *= (1 + rate_variation)
         self.engine.setProperty('rate', self.rate)
 
     def speak(self, text):
         if not self.activated:
             return
-
-        gtts_speak(text, self.language)
+        
+        
 
     def speak_what_i_say(self, text):
         if self.is_repeat_what_i_say_activated:
@@ -63,14 +68,12 @@ class Speaker(Internal):
 
         percentual = self.is_the_question_with_sentence(
             r'aumentar a velocidade em (?P<sentence>.*)%', input)
-
         if percentual is not None:
             self.set_rate(None, +(int(percentual) / 100))
             return f"velocidade do áudio aumentada em {percentual}%."
 
         percentual = self.is_the_question_with_sentence(
             r'diminuir a velocidade em (?P<sentence>.*)%', input)
-
         if percentual is not None:
             self.set_rate(None, -(int(percentual) / 100))
             return f"velocidade do áudio reduzida em {percentual}%."

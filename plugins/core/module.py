@@ -6,23 +6,25 @@ r.energy_threshold = 200
 
 m = sr.Microphone()
 
-def listen(phrase_time_limit = None):
+
+def listen(phrase_time_limit=None):
     error = None
     try:
         with m as source:
             if phrase_time_limit is None:
                 audio = r.listen(source, timeout=10)
             else:
-                audio = r.listen(source, timeout=10, phrase_time_limit=phrase_time_limit)
+                audio = r.listen(source, timeout=10,
+                                 phrase_time_limit=phrase_time_limit)
 
             try:
                 message = r.recognize_google(audio, language="pt-BR")
 
-            except IndexError: # the API key didn't work
+            except IndexError:  # the API key didn't work
                 message = None
                 error = "No internet connection"
 
-            except LookupError: # speech is unintelligible
+            except LookupError:  # speech is unintelligible
                 message = None
                 error = "Could not understand audio"
 
@@ -48,4 +50,5 @@ def adjust_threshold():
     with m as source:
         r.adjust_for_ambient_noise(source)
 
-    print(f"Configurado limiar mínimo para reconhecimento de fala: {r.energy_threshold}")
+    print(
+        f"Configurado limiar mínimo para reconhecimento de fala: {r.energy_threshold}")
